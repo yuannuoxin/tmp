@@ -1,0 +1,81 @@
+{
+  "log": {
+    "level": "info",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "google",
+        "type": "tls",
+        "server": "8.8.8.8",
+        "detour": "anytls-out"
+      },
+      {
+        "tag": "local",
+        "type": "udp",
+        "server": "223.5.5.5"
+      }
+    ],
+    "strategy": "ipv4_only",
+    "final": "google"
+  },
+  "inbounds": [
+    {
+      "type": "socks",
+      "tag": "socks-in",
+      "listen": "127.0.0.1",
+      "listen_port": 20808
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "anytls",
+      "tag": "anytls-out",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8811,
+      "password": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "idle_session_check_interval": "30s",
+      "idle_session_timeout": "30s",
+      "min_idle_session": 5,
+      "tls": {
+        "enabled": true,
+        "certificate_public_key_sha256": [
+          "Pbf7ZmVgcFOreF5Jtd3nz0O1WqxPrcScrsyuQgOLhhA="
+        ],
+        "server_name": "addons.mozilla.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "default_domain_resolver": "local",
+    "rules": [
+      {
+        "inbound": "socks-in",
+        "action": "sniff"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "ip_is_private": true,
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "action": "route",
+        "outbound": "anytls-out"
+      }
+    ],
+    "auto_detect_interface": true
+  }
+}
