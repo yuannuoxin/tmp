@@ -55,7 +55,7 @@ proxy-providers:
   sing-box:
     <<: *p
     type: http
-    url: https://github.com/yuannuoxin/tmp/blob/main/subscribe/proxies
+    url: https://raw.githubusercontent.com/yuannuoxin/tmp/refs/heads/main/subscribe/proxies
 
 proxies:
 
