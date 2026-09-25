@@ -55,7 +55,7 @@ proxy-providers:
   sing-box:
     <<: *p
     type: http
-    url: https://adjust-graduated-gathered-legacy.trycloudflare.com/252e4eca-9921-46e3-a13d-4684d3871001/proxies
+    url: https://github.com/yuannuoxin/tmp/blob/main/subscribe/proxies
 
 proxies:
 
