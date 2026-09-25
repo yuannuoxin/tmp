@@ -1,0 +1,44 @@
+//  "public_key":"6wH1K_gh2FnfIMiFdPDE4c_n2pUP7GJUojhaOvwsRUQ"
+{
+    "inbounds":[
+        {
+            "type":"vless",
+            "tag":"sing-box grpc-reality",
+            "listen":"::",
+            "listen_port":8810,
+            "users":[
+                {
+                    "uuid":"252e4eca-9921-46e3-a13d-4684d3871001"
+                }
+            ],
+            "tls":{
+                "enabled":true,
+                "server_name":"addons.mozilla.org",
+                "reality":{
+                    "enabled":true,
+                    "handshake":{
+                        "server":"addons.mozilla.org",
+                        "server_port":443
+                    },
+                    "private_key":"cMy8J6J49b6iTEOTkLZziXmakaF6-Lu5zdq-OMQPhkw",
+                    "short_id":[
+                        ""
+                    ]
+                }
+            },
+            "transport": {
+                "type": "grpc",
+                "service_name": "grpc"
+            },
+            "multiplex":{
+                "enabled":true,
+                "padding":true,
+                "brutal":{
+                    "enabled":false,
+                    "up_mbps":1000,
+                    "down_mbps":1000
+                }
+            }
+        }
+    ]
+}

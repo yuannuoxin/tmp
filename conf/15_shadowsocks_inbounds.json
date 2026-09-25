@@ -1,0 +1,21 @@
+{
+    "inbounds":[
+        {
+            "type":"shadowsocks",
+            "tag":"sing-box shadowsocks",
+            "listen":"::",
+            "listen_port":8805,
+            "method":"2022-blake3-aes-128-gcm",
+            "password":"ppcm/wtNTYDz1oBFLFLU7g==",
+            "multiplex":{
+                "enabled":true,
+                "padding":true,
+                "brutal":{
+                    "enabled":false,
+                    "up_mbps":1000,
+                    "down_mbps":1000
+                }
+            }
+        }
+    ]
+}

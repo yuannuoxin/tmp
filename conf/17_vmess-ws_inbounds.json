@@ -1,0 +1,34 @@
+//  "CDN": "skk.moe"
+{
+    "inbounds":[
+        {
+            "type":"vmess",
+            "tag":"sing-box vmess-ws",
+            "listen":"127.0.0.1",
+            "listen_port":8807,
+            "tcp_fast_open":false,
+            "proxy_protocol":false,
+            "users":[
+                {
+                    "uuid":"252e4eca-9921-46e3-a13d-4684d3871001",
+                    "alterId":0
+                }
+            ],
+            "transport":{
+                "type":"ws",
+                "path":"/252e4eca-9921-46e3-a13d-4684d3871001-vmess",
+                "max_early_data":2560,
+                "early_data_header_name":"Sec-WebSocket-Protocol"
+            },
+            "multiplex":{
+                "enabled":true,
+                "padding":true,
+                "brutal":{
+                    "enabled":false,
+                    "up_mbps":1000,
+                    "down_mbps":1000
+                }
+            }
+        }
+    ]
+}

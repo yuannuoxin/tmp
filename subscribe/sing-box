@@ -1,0 +1,636 @@
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true,
+      "store_dns": true
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui",
+      "default_mode": "rule"
+    }
+  },
+  "ntp": {
+    "enabled": true,
+    "server": "time.apple.com",
+    "server_port": 123,
+    "interval": "60m"
+  },
+  "http_clients": [
+    {
+      "tag": "http-client-direct"
+    }
+  ],
+  "dns": {
+    "servers": [
+      {
+        "type": "tls",
+        "tag": "google",
+        "detour": "♻️ 自动选择",
+        "server": "8.8.8.8"
+      },
+      {
+        "type": "https",
+        "tag": "local",
+        "server": "223.5.5.5"
+      },
+      {
+        "type": "fakeip",
+        "tag": "fakeip",
+        "inet4_range": "198.18.0.0/15"
+      }
+    ],
+    "rules": [
+      {
+        "clash_mode": "Direct",
+        "server": "local"
+      },
+      {
+        "clash_mode": "Global",
+        "server": "google"
+      },
+      {
+        "query_type": [
+          "AAAA"
+        ],
+        "server": "block"
+      },
+      {
+        "rule_set": "geosite-cn",
+        "server": "local"
+      },
+      {
+        "query_type": [
+          "A"
+        ],
+        "server": "fakeip"
+      }
+    ],
+    "strategy": "prefer_ipv4"
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": "172.19.0.1/30",
+      "auto_route": true,
+      "strict_route": true,
+      "stack": "system",
+      "platform": {
+        "http_proxy": {
+          "enabled": true,
+          "server": "127.0.0.1",
+          "server_port": 7890
+        }
+      }
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7890
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "vless",
+      "tag": "sing-box xtls-reality",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8801,
+      "uuid": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "addons.mozilla.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "6wH1K_gh2FnfIMiFdPDE4c_n2pUP7GJUojhaOvwsRUQ",
+          "short_id": ""
+        }
+      },
+      "multiplex": {
+        "enabled": false,
+        "protocol": "h2mux",
+        "max_connections": 8,
+        "min_streams": 16,
+        "padding": false,
+        "brutal": {
+          "enabled": false
+        }
+      }
+    },
+    {
+      "type": "hysteria2",
+      "tag": "sing-box hysteria2",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8802,
+      "up_mbps": 200,
+      "down_mbps": 1000,
+      "password": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "tls": {
+        "enabled": true,
+        "certificate_public_key_sha256": [
+          "Pbf7ZmVgcFOreF5Jtd3nz0O1WqxPrcScrsyuQgOLhhA="
+        ],
+        "server_name": "addons.mozilla.org",
+        "alpn": [
+          "h3"
+        ]
+      }
+    },
+    {
+      "type": "tuic",
+      "tag": "sing-box tuic",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8803,
+      "uuid": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "password": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "congestion_control": "bbr",
+      "udp_relay_mode": "native",
+      "zero_rtt_handshake": false,
+      "heartbeat": "10s",
+      "tls": {
+        "enabled": true,
+        "certificate_public_key_sha256": [
+          "Pbf7ZmVgcFOreF5Jtd3nz0O1WqxPrcScrsyuQgOLhhA="
+        ],
+        "server_name": "addons.mozilla.org",
+        "alpn": [
+          "h3"
+        ]
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "sing-box ShadowTLS",
+      "method": "2022-blake3-aes-128-gcm",
+      "password": "ppcm/wtNTYDz1oBFLFLU7g==",
+      "detour": "shadowtls-out",
+      "udp_over_tcp": false,
+      "multiplex": {
+        "enabled": true,
+        "protocol": "h2mux",
+        "max_connections": 8,
+        "min_streams": 16,
+        "padding": true,
+        "brutal": {
+          "enabled": false,
+          "up_mbps": 1000,
+          "down_mbps": 1000
+        }
+      }
+    },
+    {
+      "type": "shadowtls",
+      "tag": "shadowtls-out",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8804,
+      "version": 3,
+      "password": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "tls": {
+        "enabled": true,
+        "server_name": "addons.mozilla.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "sing-box shadowsocks",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8805,
+      "method": "2022-blake3-aes-128-gcm",
+      "password": "ppcm/wtNTYDz1oBFLFLU7g==",
+      "multiplex": {
+        "enabled": true,
+        "protocol": "h2mux",
+        "max_connections": 8,
+        "min_streams": 16,
+        "padding": true,
+        "brutal": {
+          "enabled": false,
+          "up_mbps": 1000,
+          "down_mbps": 1000
+        }
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "sing-box trojan",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8806,
+      "password": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "tls": {
+        "enabled": true,
+        "certificate_public_key_sha256": [
+          "Pbf7ZmVgcFOreF5Jtd3nz0O1WqxPrcScrsyuQgOLhhA="
+        ],
+        "server_name": "addons.mozilla.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        }
+      },
+      "multiplex": {
+        "enabled": true,
+        "protocol": "h2mux",
+        "max_connections": 8,
+        "min_streams": 16,
+        "padding": true,
+        "brutal": {
+          "enabled": false,
+          "up_mbps": 1000,
+          "down_mbps": 1000
+        }
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "sing-box vmess-ws",
+      "server": "skk.moe",
+      "server_port": 80,
+      "uuid": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "security": "auto",
+      "transport": {
+        "type": "ws",
+        "path": "/252e4eca-9921-46e3-a13d-4684d3871001-vmess",
+        "headers": {
+          "Host": "adjust-graduated-gathered-legacy.trycloudflare.com"
+        }
+      },
+      "multiplex": {
+        "enabled": true,
+        "protocol": "h2mux",
+        "max_streams": 16,
+        "padding": true,
+        "brutal": {
+          "enabled": false,
+          "up_mbps": 1000,
+          "down_mbps": 1000
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "sing-box vless-ws-tls",
+      "server": "skk.moe",
+      "server_port": 443,
+      "uuid": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "tls": {
+        "enabled": true,
+        "server_name": "adjust-graduated-gathered-legacy.trycloudflare.com",
+        "insecure": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/252e4eca-9921-46e3-a13d-4684d3871001-vless",
+        "headers": {
+          "Host": "adjust-graduated-gathered-legacy.trycloudflare.com"
+        },
+        "max_early_data": 2560,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "multiplex": {
+        "enabled": true,
+        "protocol": "h2mux",
+        "max_streams": 16,
+        "padding": true,
+        "brutal": {
+          "enabled": false,
+          "up_mbps": 1000,
+          "down_mbps": 1000
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "sing-box h2-reality",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8809,
+      "uuid": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "tls": {
+        "enabled": true,
+        "server_name": "addons.mozilla.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "6wH1K_gh2FnfIMiFdPDE4c_n2pUP7GJUojhaOvwsRUQ",
+          "short_id": ""
+        }
+      },
+      "transport": {
+        "type": "http"
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "sing-box grpc-reality",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8810,
+      "uuid": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "tls": {
+        "enabled": true,
+        "server_name": "addons.mozilla.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "6wH1K_gh2FnfIMiFdPDE4c_n2pUP7GJUojhaOvwsRUQ",
+          "short_id": ""
+        }
+      },
+      "transport": {
+        "type": "grpc",
+        "service_name": "grpc"
+      }
+    },
+    {
+      "type": "anytls",
+      "tag": "sing-box anytls",
+      "server": "sb.003.mtt.qzz.io",
+      "server_port": 8811,
+      "password": "252e4eca-9921-46e3-a13d-4684d3871001",
+      "idle_session_check_interval": "30s",
+      "idle_session_timeout": "30s",
+      "min_idle_session": 5,
+      "tls": {
+        "enabled": true,
+        "certificate_public_key_sha256": [
+          "Pbf7ZmVgcFOreF5Jtd3nz0O1WqxPrcScrsyuQgOLhhA="
+        ],
+        "server_name": "addons.mozilla.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        }
+      }
+    },
+    {
+      "type": "urltest",
+      "tag": "♻️ 自动选择",
+      "outbounds": [
+        "sing-box xtls-reality",
+        "sing-box hysteria2",
+        "sing-box tuic",
+        "sing-box ShadowTLS",
+        "sing-box shadowsocks",
+        "sing-box trojan",
+        "sing-box vmess-ws",
+        "sing-box vless-ws-tls",
+        "sing-box h2-reality",
+        "sing-box grpc-reality",
+        "sing-box anytls"
+      ],
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": "5m0s",
+      "tolerance": 50
+    },
+    {
+      "type": "selector",
+      "tag": "🤖 AI",
+      "outbounds": [
+        "♻️ 自动选择",
+        "✈️ Proxy",
+        "sing-box xtls-reality",
+        "sing-box hysteria2",
+        "sing-box tuic",
+        "sing-box ShadowTLS",
+        "sing-box shadowsocks",
+        "sing-box trojan",
+        "sing-box vmess-ws",
+        "sing-box vless-ws-tls",
+        "sing-box h2-reality",
+        "sing-box grpc-reality",
+        "sing-box anytls"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "▶️ YouTube",
+      "outbounds": [
+        "♻️ 自动选择",
+        "✈️ Proxy",
+        "sing-box xtls-reality",
+        "sing-box hysteria2",
+        "sing-box tuic",
+        "sing-box ShadowTLS",
+        "sing-box shadowsocks",
+        "sing-box trojan",
+        "sing-box vmess-ws",
+        "sing-box vless-ws-tls",
+        "sing-box h2-reality",
+        "sing-box grpc-reality",
+        "sing-box anytls"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "📱 Telegram",
+      "outbounds": [
+        "♻️ 自动选择",
+        "✈️ Proxy",
+        "sing-box xtls-reality",
+        "sing-box hysteria2",
+        "sing-box tuic",
+        "sing-box ShadowTLS",
+        "sing-box shadowsocks",
+        "sing-box trojan",
+        "sing-box vmess-ws",
+        "sing-box vless-ws-tls",
+        "sing-box h2-reality",
+        "sing-box grpc-reality",
+        "sing-box anytls"
+      ]
+    },
+    {
+      "type": "selector",
+      "tag": "✈️ Proxy",
+      "outbounds": [
+        "♻️ 自动选择",
+        "🎯 direct",
+        "sing-box xtls-reality",
+        "sing-box hysteria2",
+        "sing-box tuic",
+        "sing-box ShadowTLS",
+        "sing-box shadowsocks",
+        "sing-box trojan",
+        "sing-box vmess-ws",
+        "sing-box vless-ws-tls",
+        "sing-box h2-reality",
+        "sing-box grpc-reality",
+        "sing-box anytls"
+      ]
+    },
+    {
+      "type": "direct",
+      "tag": "🎯 direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "default_http_client": "http-client-direct",
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "🎯 direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "✈️ Proxy"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "rule_set": "geosite-category-ads-all",
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "geosite-cn",
+          "geoip-cn"
+        ],
+        "outbound": "🎯 direct"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "🎯 direct"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "rule_set": [
+              "geosite-openai",
+              "geosite-anthropic",
+              "geosite-google-gemini"
+            ]
+          },
+          {
+            "domain_suffix": [
+              "chatgpt.com",
+              "claude.ai",
+              "gateway.ai.cloudflare.com",
+              "grok.com",
+              "groq.com",
+              "meta.ai",
+              "openart.ai",
+              "openrouter.ai",
+              "perplexity.ai",
+              "x.ai"
+            ]
+          }
+        ],
+        "outbound": "🤖 AI"
+      },
+      {
+        "rule_set": [
+          "geosite-youtube",
+          "geosite-netflix"
+        ],
+        "outbound": "▶️ YouTube"
+      },
+      {
+        "rule_set": "geosite-telegram",
+        "outbound": "📱 Telegram"
+      },
+      {
+        "rule_set": "geosite-geolocation-!cn",
+        "outbound": "♻️ 自动选择"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geosite-category-ads-all",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-category-ads-all.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cn",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-cn.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-cn",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geoip@rule-set/geoip-cn.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-openai",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-openai.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-anthropic",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-anthropic.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-google-gemini",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-google-gemini.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-youtube",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-youtube.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-netflix",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-netflix.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-telegram",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-telegram.srs",
+        "update_interval": "24h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-geolocation-!cn",
+        "url": "https://testingcf.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-geolocation-!cn.srs",
+        "update_interval": "24h0m0s"
+      }
+    ],
+    "final": "♻️ 自动选择",
+    "auto_detect_interface": true,
+    "default_domain_resolver": "local"
+  }
+}

@@ -1,0 +1,29 @@
+{
+    "inbounds":[
+        {
+            "type":"trojan",
+            "tag":"sing-box trojan",
+            "listen":"::",
+            "listen_port":8806,
+            "users":[
+                {
+                    "password":"252e4eca-9921-46e3-a13d-4684d3871001"
+                }
+            ],
+            "tls":{
+                "enabled":true,
+                "certificate_path":"/sing-box/cert/cert.pem",
+                "key_path":"/sing-box/cert/private.key"
+            },
+            "multiplex":{
+                "enabled":true,
+                "padding":true,
+                "brutal":{
+                    "enabled":false,
+                    "up_mbps":1000,
+                    "down_mbps":1000
+                }
+            }
+        }
+    ]
+}
